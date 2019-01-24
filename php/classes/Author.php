@@ -122,6 +122,21 @@ class Author {
 			throw(new UnexpectedValueException("author email is not a valid string"));
 		}
 	}
+
+	/**
+	 * accessor for author hash
+	 */
+
+	public function getAuthorHash() {
+		return($item->authorHash);
+	}
+
+	/**
+	 * mutator for  author hash
+	 *
+	 * @param string $newAuthorHash value of Author Hash
+	 *
+	 */
 }
 ?>
 
