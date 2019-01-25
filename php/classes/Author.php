@@ -11,13 +11,13 @@ class author {
 	 */
 	private $authorId;
 	/**
-	 * the author url
-	 */
-	private $authorAvatarUrl;
-	/**
 	 * the author activation token
 	 */
 	private $authorActivationToken;
+	/**
+	 * the author url
+	 */
+	private $authorAvatarUrl;
 	/**
 	 *the author email address
 	 */
@@ -57,6 +57,30 @@ class author {
 	}
 
 	/**
+	 * accessor method for author activation token
+	 * @return string value of author activation token
+	 */
+	public function getAuthorActivationToken() {
+		return($this->authorActivationToken);
+	}
+
+	/**
+	 * mutator method for author activation token
+	 *
+	 * @param string $newAuthorActivationToken new value of author activation token
+	 * @throws UnexpectedValueException if $newAuthorActivationToken is not valid
+	 */
+	public function setAuthorActivationToken($newAuthorActivationToken) {
+		// verify Author Activation Token is valid
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING);
+		if($newAuthorActivationToken === false) {
+			throw(new UnexpectedValueException("author activation token is not a valid string"));
+		}
+		// convert and store the author activation token
+		$this->authorActivationToken = $newAuthorActivationToken;
+	}
+
+	/**
 	 *accessor method for author avatar url
 	 *
 	 * @return int value of profile id
@@ -79,30 +103,6 @@ class author {
 		}
 		// convert and store the author avatar url
 		$this->authorAvatarUrl = $newAuthorAvatarUrl;
-	}
-
-	/**
-	 * accessor method for author activation token
-	 * @return string value of author activation token
-	 */
-	public function getAuthorActivationToken() {
-		return($this->authorActivationToken);
-	}
-
-	/**
-	 * mutator method for author activation token
-	 *
-	 * @param string $newAuthorActivationToken new value of author activation token
-	 * @throws UnexpectedValueException if $newAuthorActivationToken is not valid
-	 */
-	public function setAuthorActivationToken($newAuthorActivationToken) {
-		// verify Author Activation Token is valid
-		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING);
-		if($newAuthorActivationToken === false) {
-			throw(new UnexpectedValueException("author activation token is not a valid string"));
-		}
-		// convert and store the author activation token
-		$this->authorActivationToken = $newAuthorActivationToken;
 	}
 
 	/**
