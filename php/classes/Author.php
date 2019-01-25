@@ -52,7 +52,6 @@ class author {
 		if($newAuthorId === false) {
 			throw(new UnexpectedValueException("author id is not a valid integer"));
 		}
-
 		// convert and store the author id
 		$this->authorId = intval($newAuthorId);
 	}
@@ -78,7 +77,6 @@ class author {
 		if($newAuthorAvatarUrl === false) {
 			throw(new UnexpectedValueException("author avatar url is not a valid string"));
 		}
-
 		// convert and store the author avatar url
 		$this->authorAvatarUrl = $newAuthorAvatarUrl;
 	}
@@ -103,7 +101,6 @@ class author {
 		if($newAuthorActivationToken === false) {
 			throw(new UnexpectedValueException("author activation token is not a valid string"));
 		}
-
 		// convert and store the author activation token
 		$this->authorActivationToken = $newAuthorActivationToken;
 	}
@@ -129,7 +126,6 @@ class author {
 		if($newAuthorEmail === false) {
 			throw(new UnexpectedValueException("author email is not a valid string"));
 		}
-
 		// convert and store the author email
 		$this->authorEmail = $newAuthorEmail;
 	}
@@ -155,7 +151,6 @@ class author {
 		if($newAuthorHash === false) {
 			throw(new UnexpectedValueException("author hash is not a valid string"));
 		}
-
 		// convert and store the author hash
 		$this->authorHash = $newAuthorHash;
 	}
@@ -187,4 +182,3 @@ class author {
 	}
 }
 ?>
-
