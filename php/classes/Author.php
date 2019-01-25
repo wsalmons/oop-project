@@ -5,55 +5,104 @@
  * @author Wyatt Salmons <wyattsalmons@gmail.com>
  */
 
-class author {
+class author implements \JsonSerializable {
+	use ValidateDate;
+	use ValidateUuid;
+
 	/**
 	 * the id for this author, this is the primary key
+	 * @var Uuid $authorId
 	 */
 	private $authorId;
+
 	/**
 	 * the author activation token
+	 * @var string activation token
 	 */
 	private $authorActivationToken;
+
 	/**
 	 * the author url
+	 * @var string $authorAvatarUrl
 	 */
 	private $authorAvatarUrl;
+
 	/**
 	 *the author email address
+	 * @var string $authorEmail
 	 */
 	private $authorEmail;
+
 	/**
 	 * the author hash
+	 * @var string $authorHash
 	 */
 	private $authorHash;
+
 	/**
 	 * the author username
+	 * @var string $authorUsername
 	 */
 	private $authorUsername;
+
+
+	/**
+	 * constructor for author object
+	 *
+	 * @param string|Uuid $newAuthorId of this new author
+	 * @param string containing $newAuthorActivationToken
+	 * @param string containing $newAuthorAvatarUrl
+	 * @param string containing $newAuthorEmail
+	 * @param string containing $newAuthorHash
+	 * @param string containing $newAuthorUsername
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (eg, strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 * @documentation https://php.net/manual/en/language.oop5.decon.php
+	 */
+	public function __construct($newAuthorId, $newAuthorActivationToken, $newAuthorAvatarUrl, $newAuthorEmail, $newAuthorHash, $newAuthorUsername) {
+		try {
+			$this->setAuthorId($newAuthorId);
+			$this->setAuthorActivationToken($newAuthorActivationToken);
+			$this->setauthorAvatarUrl($newAuthorAvatarUrl);
+			$this->setauthorEmail($newAuthorEmail);
+			$this->setAuthorHash($newAuthorHash);
+			$this->setAuthorUsername($newAuthorUsername);
+		}
+		//determine what exception was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+}
 
 	/**
 	 * accessor method for authorId
 	 *
-	 * @return int value of author id
+	 * @return Uuid value of author id
 	 */
-	public function getAuthorId() {
+	public function getAuthorId() : Uuid {
 		return($this->authorId);
 	}
 
 	/**
 	 * mutator method for authorId
 	 *
-	 * @param int $newAuthorId new value of author id
-	 * @throws UnexpectedValueException if $newAuthorId is not an integer
+	 * @param Uuid | string $newAuthorId new value of author id
+	 * @throws \RangeException if $newAuthorId is not positive
+	 * @throws \TypeError if $newAuthorId id not a uuid or string
 	 */
-	public function setAuthorId($newAuthorId) {
-		// verify the author id is valid
-		$newAuthorId = filter_var($newAuthorId, FILTER_VALIDATE_INT);
-		if($newAuthorId === false) {
-			throw(new UnexpectedValueException("author id is not a valid integer"));
+	public function setAuthorId($newAuthorId) : void {
+		try {
+			$uuid = self::validateUuid($newAuthorId);
+		}
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		// convert and store the author id
-		$this->authorId = intval($newAuthorId);
+		$this->authorId = $uuid;
 	}
 
 	/**
