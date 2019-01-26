@@ -107,9 +107,10 @@ class author implements \JsonSerializable {
 
 	/**
 	 * accessor method for author activation token
+	 *
 	 * @return string value of author activation token
 	 */
-	public function getAuthorActivationToken() {
+	public function getAuthorActivationToken() : string {
 		return($this->authorActivationToken);
 	}
 
@@ -117,13 +118,20 @@ class author implements \JsonSerializable {
 	 * mutator method for author activation token
 	 *
 	 * @param string $newAuthorActivationToken new value of author activation token
-	 * @throws UnexpectedValueException if $newAuthorActivationToken is not valid
+	 * @throws \InvalidArgumentException if $newAuthorActivationToken is not a string or insecure
+	 * @throws \RangeException if $newAuthorActivationToken is > 32 characters
+	 * @throws \TypeError if $newAuthorActivationToken is not a string
 	 */
-	public function setAuthorActivationToken($newAuthorActivationToken) {
-		// verify Author Activation Token is valid
-		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING);
-		if($newAuthorActivationToken === false) {
-			throw(new UnexpectedValueException("author activation token is not a valid string"));
+	public function setAuthorActivationToken(string $newAuthorActivationToken) : void {
+		// verify Author Activation Token is secure
+		$newAuthorActivationToken = trim($newAuthorActivationToken);
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorActivationToken) === true) {
+			throw(new \InvalidArgumentException("author activation token is empty or insecure"));
+		}
+		//verify the content will fit into the database
+		if(strlen($newAuthorActivationToken) > 32) {
+			throw(new \RangeException("token content too large"));
 		}
 		// convert and store the author activation token
 		$this->authorActivationToken = $newAuthorActivationToken;
@@ -132,9 +140,9 @@ class author implements \JsonSerializable {
 	/**
 	 *accessor method for author avatar url
 	 *
-	 * @return int value of profile id
+	 * @return string value of profile id
 	 */
-	public function getAuthorAvatarUrl() {
+	public function getAuthorAvatarUrl() : string {
 		return($this->authorAvatarUrl);
 	}
 
@@ -142,13 +150,20 @@ class author implements \JsonSerializable {
 	 * mutator method for author avatar url
 	 *
 	 * @param string $newAuthorAvatarUrl new value of author avatar url
-	 * @throws UnexpectedValueException if $newAuthorAvatarUrl is not valid
+	 * @throws \InvalidArgumentException if $newAvatarUrl is not a string or insecure
+	 * @throws \RangeException if $newAvatarUrl is > 255 characters
+	 * @throws \TypeError if $newTweetContent is not a string
 	 */
-	public function setAuthorAvatarUrl($newAuthorAvatarUrl) {
-		// verify author avatar url is valid
-		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING);
-		if($newAuthorAvatarUrl === false) {
-			throw(new UnexpectedValueException("author avatar url is not a valid string"));
+	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
+		// verify author avatar url is secure
+		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
+		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorAvatarUrl) === true) {
+			throw(new \InvalidArgumentException("author avatar url content is not secure"));
+		}
+		//verify the content will fit into the database
+		if(strlen($newAuthorAvatarUrl) > 255) {
+			throw(new \RangeException("url content too large"));
 		}
 		// convert and store the author avatar url
 		$this->authorAvatarUrl = $newAuthorAvatarUrl;
@@ -159,7 +174,7 @@ class author implements \JsonSerializable {
 	 *
 	 * @return string value of author email
 	 */
-	public function getAuthorEmail () {
+	public function getAuthorEmail() : string {
 		return($this->authorEmail);
 	}
 
@@ -167,13 +182,20 @@ class author implements \JsonSerializable {
 	 * mutator method for author email
 	 *
 	 * @param string $newAuthorEmail new value of author email
-	 * @throws UnexpectedValueException if $newAuthorEmail is not valid
+	 * @throws \InvalidArgumentException if $newAuthorEmail is not a string or insecure
+	 * @throws \RangeException if $newAuthorEmail is > 128 characters
+	 * @throws \TypeError if $newAuthorEmail is not a string
 	 */
-	public function setAuthorEmail($newAuthorEmail) {
-		//verify Author Email is valid
-		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING);
-		if($newAuthorEmail === false) {
-			throw(new UnexpectedValueException("author email is not a valid string"));
+	public function setAuthorEmail(string $newAuthorEmail) : void {
+		//verify Author Email is secure
+		$newAuthorEmail = trim($newAuthorEmail);
+		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if (empty($newAuthorEmail) === true) {
+			throw(new \InvalidArgumentException("author email is empty or insecure "));
+		}
+		//verify thw author email will fit in the database
+		if(strlen($newAuthorEmail) > 128) {
+			throw(new \RangeException("email content too large"));
 		}
 		// convert and store the author email
 		$this->authorEmail = $newAuthorEmail;
@@ -184,7 +206,7 @@ class author implements \JsonSerializable {
 	 *
 	 * @return string value of author hash
 	 */
-	public function getAuthorHash() {
+	public function getAuthorHash() : string {
 		return($this->authorHash);
 	}
 
@@ -192,13 +214,20 @@ class author implements \JsonSerializable {
 	 * mutator for  author hash
 	 *
 	 * @param string $newAuthorHash new value of Author Hash
-	 * @throws UnexpectedValueException if $newAuthorHash is not valid
+	 * @throws \InvalidArgumentException if $newAuthorHash is not a string or insecure
+	 * @throws \RangeException if $newAuthorHash is > 97 characters
+	 * @throws \TypeError if $newAuthorHash is not a string
 	 */
-	public function setAuthorHash($newAuthorHash) {
+	public function setAuthorHash(string $newAuthorHash) : void {
 		//verify author hash is valid
-		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING);
-		if($newAuthorHash === false) {
-			throw(new UnexpectedValueException("author hash is not a valid string"));
+		$newAuthorHash = trim($newAuthorHash);
+		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorHash) === true) {
+			throw(new \InvalidArgumentException("author hash is empty or insecure"));
+		}
+		// verify the author hash content will fit in the database
+		if(strlen($newAuthorHash) > 97) {
+			throw(new \RangeException("hash content too large"));
 		}
 		// convert and store the author hash
 		$this->authorHash = $newAuthorHash;
@@ -210,7 +239,7 @@ class author implements \JsonSerializable {
 	 * @return string value of
 	 */
 
-	public function getAuthorUsername() {
+	public function getAuthorUsername() : string {
 		return($this->authorUsername);
 	}
 
@@ -218,13 +247,20 @@ class author implements \JsonSerializable {
 	 * mutator for author username
 	 *
 	 * @param string $newAuthorUsername new value of author username
-	 * @throws UnexpectedValueException if $newAuthorUsername is not valid
+	 * @throws \InvalidArgumentException if $newAuthorUsername is not a string or insecure
+	 * @throws \RangeException if $newAuthorUsername is > 32 characters
+	 * @throws \TypeError if $newAuthorUsername is not a string
 	 */
-	public function setAuthorUsername($newAuthorUsername) {
+	public function setAuthorUsername(string $newAuthorUsername) : void {
 		// verify author username
-		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING);
-		if($newAuthorUsername === false) {
-			throw(new UnexpectedValueException("author username is not a valid string"));
+		$newAuthorUsername = trim($newAuthorUsername);
+		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorUsername) === true) {
+			throw(new \InvalidArgumentException("author username is empty or insecure"));
+		}
+		// verify the author username will fit in the database
+		if(strlen($newAuthorUsername) > 32) {
+			throw(new \RangeException("username content too large"));
 		}
 		// convert and store the author username
 		$this->authorUsername = $newAuthorUsername;
