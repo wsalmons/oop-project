@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS author;
 
 -- this creates the table
 CREATE TABLE author (
-	authorId BINARY(32) NOT NULL,
+	authorId BINARY(16) NOT NULL,
 	authorActivationToken CHAR (32),
 	authorAvatarUrl VARCHAR (255),
 	authorEmail VARCHAR (128) not null,
