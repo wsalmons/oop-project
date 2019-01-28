@@ -158,7 +158,7 @@ class author implements \JsonSerializable {
 	 * @param string $newAuthorAvatarUrl new value of author avatar url
 	 * @throws \InvalidArgumentException if $newAvatarUrl is not a string or insecure
 	 * @throws \RangeException if $newAvatarUrl is > 255 characters
-	 * @throws \TypeError if $newTweetContent is not a string
+	 * @throws \TypeError if $newAuthorContent is not a string
 	 */
 	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
 		// verify author avatar url is secure
@@ -375,7 +375,7 @@ class author implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getAllTweets(\PDO $pdo) : \SPLFixedArray {
+	public static function getAllAuthors(\PDO $pdo) : \SPLFixedArray {
 		// create query template
 		$query = "SELECT authorId, authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername";
 		$statement = $pdo->prepare($query);
