@@ -409,4 +409,3 @@ class author implements \JsonSerializable {
 		return($fields);
 	}
 }
-?>
