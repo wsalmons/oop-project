@@ -1,4 +1,5 @@
 <?php
+namespace Deepdivedylan\DataDesign;
 /**
  * PSR-4 Compliant Autoloader
  *
